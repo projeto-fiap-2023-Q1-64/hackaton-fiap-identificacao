@@ -1,16 +1,12 @@
 package br.fiap.projeto.identificacao.external.config;
 
 import br.fiap.projeto.identificacao.adapter.controller.ColaboradorRestAdapterController;
-import br.fiap.projeto.identificacao.adapter.controller.LGPDRestAdapterController;
 import br.fiap.projeto.identificacao.adapter.controller.port.IColaboradorRestAdapterController;
-import br.fiap.projeto.identificacao.adapter.controller.port.ILGPDRestAdapterController;
 import br.fiap.projeto.identificacao.adapter.gateway.ColaboradorRepositoryAdapterGateway;
 import br.fiap.projeto.identificacao.external.repository.postgres.SpringColaboradorRepository;
 import br.fiap.projeto.identificacao.usecase.GestaoColaboradorUseCase;
-import br.fiap.projeto.identificacao.usecase.LGPDExcluiDadosUseCase;
 import br.fiap.projeto.identificacao.usecase.port.IColaboradorRepositoryAdapterGateway;
 import br.fiap.projeto.identificacao.usecase.port.IGestaoColaboradorUsecase;
-import br.fiap.projeto.identificacao.usecase.port.ILGPDExcluiDadosUseCase;
 import br.fiap.projeto.identificacao.usecase.port.PasswordEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,15 +30,5 @@ public class BeansConfiguration {
     @Bean
     public IColaboradorRepositoryAdapterGateway colaboradorRepositoryAdapterGateway(SpringColaboradorRepository springColaboradorRepository) {
         return new ColaboradorRepositoryAdapterGateway(springColaboradorRepository);
-    }
-
-    @Bean
-    public ILGPDRestAdapterController lgpdRestAdapterController(ILGPDExcluiDadosUseCase lgpdExcluiDadosUseCase) {
-        return new LGPDRestAdapterController(lgpdExcluiDadosUseCase);
-    }
-
-    @Bean
-    public ILGPDExcluiDadosUseCase lgpdExcluiDadosUseCase(IColaboradorRepositoryAdapterGateway colaboradorRepositoryAdapterGateway) {
-        return new LGPDExcluiDadosUseCase(colaboradorRepositoryAdapterGateway);
     }
 }
