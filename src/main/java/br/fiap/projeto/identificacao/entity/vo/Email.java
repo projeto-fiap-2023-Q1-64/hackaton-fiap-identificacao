@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class Email {
 
-    private static final String PATTERN = "\\w{1,100}@\\w{1,100}\\.\\w{1,50}(?:\\.\\w{1,50})*+";
+    private static final String PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
     public static final String EMAIL_INVALIDO = "E-mail inválido!";
     private final String endereco;

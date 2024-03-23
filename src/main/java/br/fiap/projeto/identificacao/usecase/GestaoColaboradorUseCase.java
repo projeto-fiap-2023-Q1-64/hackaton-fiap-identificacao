@@ -37,7 +37,8 @@ public class GestaoColaboradorUseCase implements IGestaoColaboradorUsecase {
             throw new EntradaInvalidaException(EMAIL_DUPLICADO);
         }
 
-        String senhaCriptografada = passwordEncoder.encode(colaboradorRef.getSenha());
+//        String senhaCriptografada = passwordEncoder.encode(colaboradorRef.getSenha());
+        String senhaCriptografada = colaboradorRef.getSenha();
 
         Colaborador novoColaborador = new Colaborador(UUID.randomUUID().toString(), colaboradorRef.getNome(), colaboradorRef.getMatricula(), colaboradorRef.getEmail().getEndereco(), senhaCriptografada);
         return colaboradorRepositoryAdapterGateway.insere(novoColaborador);
