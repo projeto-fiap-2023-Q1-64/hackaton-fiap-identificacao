@@ -23,7 +23,7 @@ jobs:
 
     - name: Set up the database
       env:
-        DB_PASSWORD_PLACEHOLDER: ${{ secrets.PROJETOFIAP_DB_PASSWORD }}
+        DB_PASSWORD_PLACEHOLDER: ${{ secrets.DB_PASSWORD }}
       run: |
         cd ./src/test/resources/deploy
         docker-compose up -d
@@ -54,15 +54,8 @@ jobs:
     - name: Run tests
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SPRING_DATASOURCE_PASSWORD: ${{ secrets.PROJETOFIAP_DB_PASSWORD }}
-      run: mvn clean verify sonar:sonar
-
-    - name: Check for tests failures
-      run: |
-        if grep -q '<error message=' target/surefire-reports/*.xml; then
-          echo "Falha nos testes"
-          exit 1
-        fi
+        SPRING_DATASOURCE_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      run: mvn test
 
       # Build Docker image
     - name: Build Docker image

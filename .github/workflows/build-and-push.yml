@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       AWS_DEFAULT_REGION: 'us-east-1'
-      CLUSTER_NAME: 'projeto-fiap-identicacao'
+      CLUSTER_NAME: 'hackaton-fiap-identificacao'
     steps:
 
     - name: Checkout code
@@ -26,7 +26,7 @@ jobs:
 
     - name: Set up the database
       env:
-        DB_PASSWORD_PLACEHOLDER: ${{ secrets.PROJETOFIAP_DB_PASSWORD }}
+        DB_PASSWORD_PLACEHOLDER: ${{ secrets.DB_PASSWORD }}
       run: |
         cd ./src/test/resources/deploy
         docker-compose up -d
@@ -56,16 +56,8 @@ jobs:
 
     - name: Run tests
       env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SPRING_DATASOURCE_PASSWORD: ${{ secrets.PROJETOFIAP_DB_PASSWORD }}
-      run: mvn clean verify sonar:sonar
-
-    - name: Check for tests failures
-      run: |
-        if grep -q '<error message=' target/surefire-reports/*.xml; then
-          echo "Falha nos testes"
-          exit 1
-        fi
+        SPRING_DATASOURCE_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      run: mvn test
 
     - name: Build jar using Maven
       run: mvn package -Dmaven.test.skip
@@ -76,7 +68,7 @@ jobs:
         access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         secret_access_key: ${{ secrets.AWS_ACCESS_KEY }}
         account_id: ${{ secrets.AWS_ACCOUNT_ID }}
-        repo: projeto-fiap-identificacao
+        repo: hackaton-fiap-identificacao
         region: us-east-1
         create_repo: true
 
@@ -93,5 +85,5 @@ jobs:
           ref: refs/heads/main
           workflow: terraform-apply.yml
           token: ${{ secrets.PAT }}  # Personal Access Token with repo scope
-          repo: richard-cardosodev/projeto-fiap-iac-infra
+          repo: richard-cardosodev/hackaton-fiap-iac
           #inputs: '{"message": "Triggered from application deployment workflow"}'
