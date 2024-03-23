@@ -6,6 +6,7 @@ import br.fiap.projeto.identificacao.usecase.exception.EntradaInvalidaException;
 import br.fiap.projeto.identificacao.usecase.port.IColaboradorRepositoryAdapterGateway;
 import br.fiap.projeto.identificacao.usecase.port.IGestaoColaboradorUsecase;
 import br.fiap.projeto.identificacao.usecase.port.PasswordEncoder;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +26,7 @@ public class GestaoColaboradorUseCase implements IGestaoColaboradorUsecase {
     }
 
     @Override
-    public Colaborador insere(Colaborador colaboradorRef) throws EntradaInvalidaException, EntidadeNaoEncontradaException {
+    public Colaborador insere(Colaborador colaboradorRef) throws EntradaInvalidaException {
         Optional<Colaborador> colaboradorExistente = colaboradorRepositoryAdapterGateway.buscaPorMatricula(colaboradorRef.getMatricula());
 
         if(colaboradorExistente.isPresent()) {
@@ -37,8 +38,7 @@ public class GestaoColaboradorUseCase implements IGestaoColaboradorUsecase {
             throw new EntradaInvalidaException(EMAIL_DUPLICADO);
         }
 
-//        String senhaCriptografada = passwordEncoder.encode(colaboradorRef.getSenha());
-        String senhaCriptografada = colaboradorRef.getSenha();
+        String senhaCriptografada = passwordEncoder.encode(colaboradorRef.getSenha());
 
         Colaborador novoColaborador = new Colaborador(UUID.randomUUID().toString(), colaboradorRef.getNome(), colaboradorRef.getMatricula(), colaboradorRef.getEmail().getEndereco(), senhaCriptografada);
         return colaboradorRepositoryAdapterGateway.insere(novoColaborador);
@@ -46,6 +46,8 @@ public class GestaoColaboradorUseCase implements IGestaoColaboradorUsecase {
 
     @Override
     public Colaborador edita(Colaborador colaboradorRef) throws EntidadeNaoEncontradaException, EntradaInvalidaException {
+        String senhaCriptografada;
+
         if (colaboradorRef.getCodigo() == null) {
             throw new EntradaInvalidaException(Colaborador.CODIGO_AUSENTE);
         }
@@ -55,7 +57,13 @@ public class GestaoColaboradorUseCase implements IGestaoColaboradorUsecase {
             throw new EntidadeNaoEncontradaException(ENTIDADE_NAO_ENCONTRADA);
         }
 
-        Colaborador colaboradorAAtualizar = new Colaborador(colaboradorExistente.getCodigo(), colaboradorRef.getNome(), colaboradorRef.getMatricula(), colaboradorRef.getEmail().getEndereco(), colaboradorRef.getSenha());
+        if(StringUtils.isNotBlank(colaboradorRef.getSenha())){
+            senhaCriptografada = passwordEncoder.encode(colaboradorRef.getSenha());
+        } else {
+            senhaCriptografada = colaboradorExistente.getSenha();
+        }
+
+        Colaborador colaboradorAAtualizar = new Colaborador(colaboradorExistente.getCodigo(), colaboradorRef.getNome(), colaboradorRef.getMatricula(), colaboradorRef.getEmail().getEndereco(), senhaCriptografada);
         return colaboradorRepositoryAdapterGateway.atualiza(colaboradorAAtualizar);
     }
 

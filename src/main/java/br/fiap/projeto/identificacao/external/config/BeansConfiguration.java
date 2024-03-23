@@ -16,8 +16,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 public class BeansConfiguration {
 
-    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    private PasswordEncoder passwordEncoder = (s) -> encoder.encode(s);
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder = encoder::encode;
+    private final PasswordMatches passwordMatches = encoder::matches;
 
     @Bean
     public IGestaoColaboradorUsecase gestaoColaboradorUsecase(IColaboradorRepositoryAdapterGateway colaboradorRepository) {
@@ -36,7 +37,7 @@ public class BeansConfiguration {
 
     @Bean
     public IAutorizaAcessoUsuario autorizaAcessoUsuario(IColaboradorRepositoryAdapterGateway colaboradorRepositoryAdapterGateway) {
-        return new AutorizaAcessoUsuario(colaboradorRepositoryAdapterGateway, passwordEncoder);
+        return new AutorizaAcessoUsuario(colaboradorRepositoryAdapterGateway, passwordMatches);
     }
 
     @Bean
