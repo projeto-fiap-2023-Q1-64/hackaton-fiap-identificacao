@@ -22,9 +22,6 @@ jobs:
         java-version: '17'
 
     - name: Run tests
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SPRING_DATASOURCE_PASSWORD: ${{ secrets.DB_PASSWORD }}
       run: mvn test
 
       # Build Docker image
