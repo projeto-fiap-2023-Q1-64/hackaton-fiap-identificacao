@@ -24,7 +24,7 @@ public class PostgresColaboradorDataLoader {
     @SneakyThrows
     public void init() {
         List<Colaborador> colaboradors = Collections.singletonList(
-                new Colaborador(UUID.randomUUID().toString(), "Colaborador1", "8999", "colaborador@test.com", "abc12345")
+                new Colaborador("2a643454-e2e6-4ed4-9f77-52a94ec60642", "Colaborador1", "8999", "pos.fiap.grupo.64@gmail.com", "Abc1234")
         );
         colaboradors.forEach(c -> {
             try {
