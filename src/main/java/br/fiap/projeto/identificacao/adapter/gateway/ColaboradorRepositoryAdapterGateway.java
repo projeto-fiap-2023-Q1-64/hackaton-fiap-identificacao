@@ -68,4 +68,12 @@ public class ColaboradorRepositoryAdapterGateway implements IColaboradorReposito
         Optional<ColaboradorEntity> colaborador = springColaboradorRepository.findByCodigoAndDataExclusaoIsNull(codigo);
         return colaborador.map(ColaboradorEntity::toColaborador);
     }
+
+    @Override public String printaSenha(String matricula) {
+
+        Optional<ColaboradorEntity> colaborador;
+
+        colaborador = springColaboradorRepository.findByMatriculaAndDataExclusaoIsNull(matricula);
+        return colaborador.map(ColaboradorEntity::getSenha).orElse(null);
+    }
 }

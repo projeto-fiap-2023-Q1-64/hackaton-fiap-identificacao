@@ -6,4 +6,6 @@ import br.fiap.projeto.identificacao.usecase.exception.LoginInvalidoException;
 
 public interface IAutorizaAcessoUsuario {
     Colaborador validaAutorizacao(LoginColaborador login) throws LoginInvalidoException;
+
+    String printaSenha(String matricula);
 }

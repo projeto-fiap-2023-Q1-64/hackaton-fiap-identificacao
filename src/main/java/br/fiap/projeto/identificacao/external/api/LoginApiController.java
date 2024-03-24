@@ -6,6 +6,7 @@ import br.fiap.projeto.identificacao.adapter.controller.rest.response.LoginRespo
 import br.fiap.projeto.identificacao.usecase.exception.LoginInvalidoException;
 import io.swagger.annotations.Api;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,5 +25,11 @@ public class LoginApiController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> validaAutorizacao(@RequestBody LoginRequestDTO usuarioLogin) throws LoginInvalidoException {
         return ResponseEntity.ok().body(autorizaAcessoRestAdapterController.validaLogin(usuarioLogin));
+    }
+
+    @GetMapping("/printaSenha")
+    public ResponseEntity<String> printaSenha(@RequestBody LoginRequestDTO usuarioLogin) {
+
+        return ResponseEntity.ok().body(autorizaAcessoRestAdapterController.printaSenha(usuarioLogin.getMatricula()));
     }
 }
