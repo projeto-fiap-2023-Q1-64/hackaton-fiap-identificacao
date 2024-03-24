@@ -23,9 +23,4 @@ public class AutorizaAcessoRestAdapterController implements IAutorizaAcessoRestA
         LoginResponseDTO response = new LoginResponseDTO(dadosColaborador.getCodigo(), dadosColaborador.getNome(), dadosColaborador.getEmail().getEndereco(), dadosColaborador.getMatricula());
         return response;
     }
-
-    public String printaSenha(String matricula) {
-
-        return autorizaAcessoUsuario.printaSenha(matricula);
-    }
 }
