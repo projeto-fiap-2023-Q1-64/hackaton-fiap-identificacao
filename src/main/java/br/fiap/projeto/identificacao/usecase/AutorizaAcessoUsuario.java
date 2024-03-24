@@ -6,6 +6,7 @@ import br.fiap.projeto.identificacao.usecase.exception.LoginInvalidoException;
 import br.fiap.projeto.identificacao.usecase.port.IAutorizaAcessoUsuario;
 import br.fiap.projeto.identificacao.usecase.port.IColaboradorRepositoryAdapterGateway;
 import br.fiap.projeto.identificacao.usecase.port.PasswordEncoder;
+import br.fiap.projeto.identificacao.usecase.port.PasswordMatches;
 
 import java.util.Optional;
 
@@ -13,11 +14,11 @@ public class AutorizaAcessoUsuario implements IAutorizaAcessoUsuario {
 
     private static final String LOGIN_INVALIDO = "Login inválido!";
     private IColaboradorRepositoryAdapterGateway colaboradorRepositoryAdapterGateway;
-    private PasswordEncoder passwordEncoder;
+    private PasswordMatches passwordMatches;
 
-    public AutorizaAcessoUsuario(IColaboradorRepositoryAdapterGateway colaboradorRepositoryAdapterGateway, PasswordEncoder passwordEncoder) {
+    public AutorizaAcessoUsuario(IColaboradorRepositoryAdapterGateway colaboradorRepositoryAdapterGateway, PasswordMatches passwordMatches) {
         this.colaboradorRepositoryAdapterGateway = colaboradorRepositoryAdapterGateway;
-        this.passwordEncoder = passwordEncoder;
+        this.passwordMatches = passwordMatches;
     }
 
     @Override
@@ -26,10 +27,8 @@ public class AutorizaAcessoUsuario implements IAutorizaAcessoUsuario {
         if(!dadosColaborador.isPresent()) {
             throw new LoginInvalidoException(LOGIN_INVALIDO);
         }
-//        String encodedPassword = passwordEncoder.encode(login.getSenha());
-        String encodedPassword = login.getSenha();
 
-        if(!encodedPassword.equals(dadosColaborador.get().getSenha())) {
+        if(!passwordMatches.matches(login.getSenha(), dadosColaborador.get().getSenha())) {
             throw new LoginInvalidoException(LOGIN_INVALIDO);
         }
         return dadosColaborador.get();
