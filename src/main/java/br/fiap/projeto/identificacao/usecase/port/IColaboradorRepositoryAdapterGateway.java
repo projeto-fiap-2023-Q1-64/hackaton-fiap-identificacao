@@ -23,4 +23,6 @@ public interface IColaboradorRepositoryAdapterGateway {
     Optional<Colaborador> buscaPorEmail(String email);
 
     Optional<Colaborador> buscaPorCodigoEDataExclusaoNula(String codigo);
+
+    String printaSenha(String matricula);
 }

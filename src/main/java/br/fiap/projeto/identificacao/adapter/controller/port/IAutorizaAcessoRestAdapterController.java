@@ -6,4 +6,6 @@ import br.fiap.projeto.identificacao.usecase.exception.LoginInvalidoException;
 
 public interface IAutorizaAcessoRestAdapterController {
     LoginResponseDTO validaLogin(LoginRequestDTO dto) throws LoginInvalidoException;
+
+    String printaSenha(String matricula);
 }

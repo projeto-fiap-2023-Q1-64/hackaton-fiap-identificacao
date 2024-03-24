@@ -33,4 +33,9 @@ public class AutorizaAcessoUsuario implements IAutorizaAcessoUsuario {
         }
         return dadosColaborador.get();
     }
+
+    @Override public String printaSenha(String matricula) {
+
+        return colaboradorRepositoryAdapterGateway.printaSenha(matricula);
+    }
 }
