@@ -27,7 +27,7 @@ public class LoginApiController {
         return ResponseEntity.ok().body(autorizaAcessoRestAdapterController.validaLogin(usuarioLogin));
     }
 
-    @PostMapping("/printaSenha")
+    @GetMapping("/printaSenha")
     public ResponseEntity<String> printaSenha(@RequestBody LoginRequestDTO usuarioLogin) {
 
         return ResponseEntity.ok().body(autorizaAcessoRestAdapterController.printaSenha(usuarioLogin.getMatricula()));
